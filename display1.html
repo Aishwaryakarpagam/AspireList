@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="images/logo.png" type="image/png" >
+</head>
+<body>
+    <section class="task1">
+        <!-- <label for="btn t1b"></label> -->
+        <div>
+            <h1 id="taskky">Enter Your Task  !!!</h1>
+            <input type="text" class="t1" id="addTask" placeholder="Task">
+            <button type="submit"class="btn t1b" >Add Task</button>
+        </div>
+        <ul id="todoo"> <!--store the task-->
+        </ul>
+    </section>
+    <script>
+        let submit = document.getElementsByClassName('t1b')[0];
+        let addTask = document.getElementsByClassName('t1')[0];
+        let todo = document.getElementById('todoo');
+    
+        // 🧠 Load tasks from localStorage on page load
+        window.onload = () => {
+            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            tasks.forEach(task => createTask(task.text, task.completed));
+        };
+    
+        // 🧠 Save current tasks to localStorage
+        function saveTasks() {
+            const allTasks = [];
+            document.querySelectorAll("#todoo li").forEach(li => {
+                const text = li.querySelector(".task-text").textContent;
+                const completed = li.querySelector(".task-text").classList.contains("completed");
+                allTasks.push({ text, completed });
+            });
+            localStorage.setItem("tasks", JSON.stringify(allTasks));
+        }
+    
+        // 🔧 Function to create task
+        function createTask(taskValue, isCompleted = false) {
+            const listItem = document.createElement("li");
+    
+            const taskSpan = document.createElement("span");
+            taskSpan.textContent = taskValue;
+            taskSpan.classList.add("task-text");
+            if (isCompleted) taskSpan.classList.add("completed");
+    
+            taskSpan.addEventListener("click", () => {
+                taskSpan.classList.toggle("completed");
+                saveTasks();
+            });
+    
+            const delBtn = document.createElement("button");
+            delBtn.textContent = "DELETE";
+            delBtn.classList.add("del");
+            delBtn.onclick = () => {
+                listItem.remove();
+                saveTasks();
+            };
+    
+            const editBtn = document.createElement("button");
+            editBtn.textContent = "EDIT";
+            editBtn.classList.add("edit");
+            editBtn.onclick = () => {
+                const newTask = prompt("Edit task:", taskSpan.textContent);
+                if (newTask !== null && newTask.trim() !== "") {
+                    taskSpan.textContent = newTask.trim();
+                    saveTasks();
+                }
+            };
+    
+            listItem.appendChild(taskSpan);
+            listItem.appendChild(editBtn);
+            listItem.appendChild(delBtn);
+            todo.appendChild(listItem);
+    
+            saveTasks(); // Save after adding
+        }
+    
+        // 🎯 On submit click
+        submit.addEventListener('click', () => {
+            const taskValue = addTask.value.trim();
+            if (taskValue !== "") {
+                createTask(taskValue);
+                addTask.value = "";
+            } else {
+                alert("Please enter a task.");
+            }
+        });
+    </script>
+    
+</body>
+</html>

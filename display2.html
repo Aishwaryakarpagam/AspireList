@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goal Keeper</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="images/logo.png" type="image/png" >
+</head>
+<body class="t">
+    <section class="task2">
+        <div id="goal">
+            <h1 id="plan-topic">Plan to Achieve Your Goal</h1>
+            <br>
+            <form id="goalkeeper">
+                <div id="no-one">
+                    <label for="firstip" class="n">Enter Your Goal </label>
+                    <input type="text" placeholder="Eg:Clear Gate Exam" class="ip" required>
+                </div>
+                <br><br>
+                <div id="no-two">
+                    <label for="secip" class="n">TIME TO COMPELETE</label>
+                    <input type="date" class="ip" required>
+                </div>
+                <br><br>
+                <div id="no-three">
+                    <label for="thirdip" class="n">No-Of-Steps</label>
+                    <input type="number"  class="ip" placeholder="Eg - 8" required>
+                </div>
+                <br><br>
+                <div id="no-four">
+                    <label for="fourthip" class="n">Enter Your Goal Step by Step  > . . < </label>
+                    <input type="text" class="ip" required placeholder="Eg - Study Aptitude">
+                    <button type="submit" class="btn step">Enter</button>
+                    <ul id="todooo"></ul>
+                </div>
+            </form>
+        </div>
+    </section>
+    <script>
+ let submit = document.getElementsByClassName('step')[0];
+let addTask = document.getElementsByClassName('ip')[0];
+let goalInput = document.querySelector('input[placeholder="Eg:Clear Gate Exam"]'); // Goal input
+let deadlineInput = document.querySelector('input[type="date"]'); // Deadline input
+let stepsInput = document.querySelector('input[placeholder="Eg - 8"]'); // Steps input
+let goalStepInput = document.querySelector('input[placeholder="Eg - Study Aptitude"]'); // Goal Step input
+let todoo = document.getElementById('todooo');
+
+window.onload = () => {
+    const tasks = JSON.parse(localStorage.getItem("taskss")) || [];
+    tasks.forEach(task => createTask(task.text, task.completed));
+};
+
+function saveTasks() {
+    const allTasks = [];
+    document.querySelectorAll("#todooo li").forEach(li => {
+        const text = li.querySelector(".task-text").textContent;
+        const completed = li.querySelector(".task-text").classList.contains("completed");
+        allTasks.push({ text, completed });
+    });
+    localStorage.setItem("taskss", JSON.stringify(allTasks));
+    // localStorage.setItem("tasks", JSON.stringify(allTasks));
+
+}
+
+function createTask(taskValue, isCompleted = false) {
+    const listItem = document.createElement("li");
+
+    const taskSpan = document.createElement("span");
+    taskSpan.textContent = taskValue;
+    taskSpan.classList.add("task-text");
+    if (isCompleted) taskSpan.classList.add("completed");
+
+    taskSpan.addEventListener("click", () => {
+        taskSpan.classList.toggle("completed");
+        saveTasks();
+    });
+
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "DELETE";
+    delBtn.classList.add("del");
+    delBtn.onclick = () => {
+        listItem.remove();
+        saveTasks();
+    };
+
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "EDIT";
+    editBtn.classList.add("edit");
+    editBtn.onclick = () => {
+        const newTask = prompt("Edit task:", taskSpan.textContent);
+        if (newTask !== null && newTask.trim() !== "") {
+            taskSpan.textContent = newTask.trim();
+            saveTasks();
+        }
+    };
+
+    listItem.appendChild(taskSpan);
+    listItem.appendChild(editBtn);
+    listItem.appendChild(delBtn);
+    todoo.appendChild(listItem);
+
+    saveTasks();
+}
+
+// Handle form submission properly
+document.getElementById("goalkeeper").addEventListener('submit', (e) => {
+    e.preventDefault();  // Prevent form from submitting (page refresh)
+    
+    const taskValue = addTask.value.trim();
+    if (taskValue !== "") {
+        createTask(taskValue);
+        addTask.value = "";  // Clear task input
+    } else {
+        alert("Please enter a task.");
+    }
+    
+    // Clear all input fields after submission
+    goalInput.value = "";      // Clear Goal input
+    deadlineInput.value = "";  // Clear Deadline input
+    stepsInput.value = "";     // Clear Steps input
+    goalStepInput.value = "";  // Clear Goal Step input
+});
+
+    </script>
+</body>
+</html>
