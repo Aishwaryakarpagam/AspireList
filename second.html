@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="html" href="index.html">
+    <link rel="html" href="display1.html">
+    <link rel="html" href="display2.html"> -->
+    <link rel="icon" href="images/logo.png" type="image/png" >
+    <title>Display</title>
+</head>
+<body onload="displayname()">
+    <section class="page1">
+        <div class="teddy">
+            <h2 id="helloUser" style="text-align: center; font-family: cursive; color: black;"></h2>
+            <img src="../images/tolldup.png" class="toll" alt="">
+            
+            <h3 id="displayname"></h3>
+        </div>
+        <div class="name1"></div>
+        <div class="p1">
+            <li><button class="btn ts" onclick="addtask()">Task Manager</button></li>
+            <li><button class="btn td" onclick="addtask2()">  Goal Keeper</button></li>
+        </div>
+    </section>  
+    <script>
+        function displayname(){
+            const name=localStorage.getItem("namee");
+            if(name){
+                document.getElementById("displayname").textContent=`${name} `;
+            } else {
+                document.getElementById("displayname").textContent="";
+            }
+            }
+      function addtask() {
+        window.location.href = "display1.html"; // Make sure file name matches
+    }
+    function addtask2(){
+        window.location.href = "display2.html"; // Make sure file name matches
+    }
+      </script>
+      
+</body>
+</html>

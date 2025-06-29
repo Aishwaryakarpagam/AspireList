@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aspire Login</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="images/logo.png" type="image/png" />
+  
+  <!-- Firebase -->
+  <script type="module">
+    // Firebase SDK (v9+ modular)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+  const firebaseConfig = {
+  apiKey: "AIzaSyAvQatpTXo8t5U9c61BKQF43AxRj51pFxQ",
+  authDomain: "aspiretodo-51727.firebaseapp.com",
+  projectId: "aspiretodo-51727",
+  storageBucket: "aspiretodo-51727.firebasestorage.app",
+  messagingSenderId: "330139148584",
+  appId: "1:330139148584:web:73459f8f84967b75f6701d"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.loginWithGoogle = function () {
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          localStorage.setItem("user", JSON.stringify(user));
+        //   localStorage.setItem("namee", user.displayName); // Optional
+          window.location.href = "loginn.html";
+        })
+        .catch((error) => {
+          alert("Google login failed: " + error.message);
+        });
+    };
+
+    window.loginWithGitHub = function () {
+      const provider = new GithubAuthProvider();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          localStorage.setItem("user", JSON.stringify(user));
+        //   localStorage.setItem("namee", user.displayName); // Optional
+          window.location.href = "loginn.html";
+        })
+        .catch((error) => {
+          alert("GitHub login failed: " + error.message);
+        });
+    };
+  </script>
+</head>
+<body>
+  <section class="name">
+    <h3 class="i/p">Login to AspireList</h3>
+    <button class="btn " onclick="loginWithGoogle()" style="border: solid 2px;">Login with Google</button>
+    <br>
+    <br>
+    <br>
+    <button class="btn " onclick="loginWithGitHub()" style="border: solid 2px;">Login with GitHub</button>
+  </section>
+  <body>
+</body>
+
+</body>
+</html>

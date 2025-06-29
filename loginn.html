@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AspireList</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="images/logo.png" type="image/png" >
+    <!-- <link rel="html" href="second.html"> -->
+</head>
+<body>
+    <section class="name">
+        <img src="../images/flower.jpg" class="f2" alt="">
+        <h3 class="i/p">WELCOME!!!</h3>
+        <li><label for="" class="form1"><i>Enter Your Lovable name</i></label></li>
+        <li><input type="text" class="en" id="namee" required placeholder="NAME"></li>
+        <button class="btn" onclick="addtask()" style="border: solid 2px;">SUBMIT</button>
+    </form>
+</section>
+<img src="../images/hi.jpg" alt="hi" class="pic1">
+<script>
+    function addtask() {
+      const nameInput = document.querySelector(".en");
+      const username = nameInput.value.trim();
+      
+      // const namee= document.getElementById('namee').value;
+      if (username !== "") {
+        localStorage.setItem("namee", username);
+        window.location.href = "second.html"; // Make sure file name matches
+      } else {
+        alert("Please enter your name.");
+      }
+    }
+  </script>
+</body>
+</html>
